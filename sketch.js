@@ -6,10 +6,10 @@ function setup() {
 }
 
 function draw() {
-    players()
+    rinkWithPlayerPositions()
 }
 
-function players() {
+function rinkWithPlayerPositions() {
     // background(240);
     ximgsize = 450;
     yimgsize = 200;
