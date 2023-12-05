@@ -6,16 +6,35 @@ let fullrinkIMG;
 let halfrinkIMG;
 let font;
 
+let picker;
+
 // Global Variables
-var gpPerSeasonAvgDataVisualazationSelection = "GPPERSEASONAVG"
-var weightavgDataVisualazationSelection = "WEIGHTAVG"
-var heightavgDataVisualazationSelection = "HEIGHTAVG"
+var gp_per_season_avg_selection = "GP per Season"
+var weight_avg_selection = "Weight"
+var height_avg_selection = "Height"
 
-var dataVisualazationSelection = gpPerSeasonAvgDataVisualazationSelection
+var dataSelection = gp_per_season_avg_selection
 
+function changeVals() {
+    print("changeVals")
+    let val = picker.value();
+    if (val == gp_per_season_avg_selection); { 
+        dataSelection = gp_per_season_avg_selection
+    } elseif (val == weight_avg_selection); { 
+        dataSelection = weight_avg_selectionSelect
+    } elseif (val == height_avg_selection); {
+        dataSelection = height_avg_selection
+    }
+}
 
 function setup() {
-    createCanvas(600, 400);
+    createCanvas(600, 300);
+
+    picker = createSelect();
+    picker.option(gp_per_season_avg_selection);
+    picker.option(weight_avg_selection);
+    picker.option(height_avg_selection);
+    picker.changed(changeVals);
 
     fullrinkIMG = loadImage('assets/rink.png');
     halfrinkIMG = loadImage('assets/halfrink.png');
@@ -25,10 +44,6 @@ function setup() {
 }
 
 function draw() {
-    
-    
-
-
     // background(240);
     textFont(font);
     var rows = table.getRows();
@@ -81,11 +96,11 @@ function draw() {
         }
     }
 
-    if (dataVisualazationSelection == gpPerSeasonAvgDataVisualazationSelection) {
+    if (dataSelection == gp_per_season_avg_selection); {
         players_singleteam(c_gpperseasonavg, r_gpperseasonavg, l_gpperseasonavg, d_gpperseasonavg, g_gpperseasonavg);
-    } else if (dataVisualazationSelection == weightavgDataVisualazationSelection) {
+    } elseif (dataSelection == weight_avg_selection); {
         players_singleteam(c_weightavg, r_weightavg, l_weightavg, d_weightavg, g_weightavg);
-    } else if (dataVisualazationSelection == heightavgDataVisualazationSelection) {
+    } elseif (dataSelection == height_avg_selection); {
         players_singleteam(c_heightavg, r_heightavg, l_heightavg, d_heightavg)
     }
 }
@@ -125,51 +140,9 @@ function players_singleteam(cSize, rwSize, lwSize, dSize, gSize) {
 function playerCircle(x, y, size, color) {
     fill(color)
     circle(x, y, size)
+    
     fill("white")
     textSize(size * 0.5)
     text(size, x - size * 0.3, y + size * 0.2);
-}
 
-function players_doubleteam() {
-    // background(240);
-    ximgsize = 450;
-    yimgsize = 200;
-    image(fullrinkIMG, 0, 0, ximgsize, yimgsize);
-
-    ypos = 52
-    xpos = 76
-
-    fill("blue")
-
-    // Team1 Center
-    circle(ximgsize / 2 - 25, yimgsize / 2, 20)
-
-    // Team1 Goalie
-    circle(xpos - 30, yimgsize / 2, 20)
-
-    // Team1 Defense
-    circle(xpos, ypos, 20);
-    circle(xpos, yimgsize - ypos, 20);
-
-    // Team1 Wings
-    circle(xpos + 100, ypos, 20);
-    circle(xpos + 100, yimgsize - 55, 20);
-
-    // ----------------------------------------------------------------
-
-    fill("red")
-
-    // Team2 Center
-    circle(ximgsize / 2 + 25, yimgsize / 2, 20)
-
-    // Team2 Goalie
-    circle(ximgsize - xpos + 30, yimgsize / 2, 20)
-
-    // Team2 Defense
-    circle(ximgsize - xpos, ypos, 20);
-    circle(ximgsize - xpos, yimgsize - ypos, 20);
-    
-    // Team2 Wings
-    circle(ximgsize - xpos - 100, ypos, 20);
-    circle(ximgsize - xpos - 100, yimgsize - 55, 20);
 }
