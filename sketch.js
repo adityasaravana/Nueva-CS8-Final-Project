@@ -1,19 +1,57 @@
-let rinkIMG;
+let fullrinkIMG;
+let halfrinkIMG;
 
 function setup() {
     createCanvas(600, 400);
-    img = loadImage('assets/rink.jpg');
+    fullrinkIMG = loadImage('assets/rink.png');
+    halfrinkIMG = loadImage('assets/halfrink.png');
 }
 
 function draw() {
+<<<<<<< Updated upstream
     rinkWithPlayerPositions()
 }
 
 function rinkWithPlayerPositions() {
+=======
+    players_singleteam(20, 20, 20, 20, 20);
+}
+
+function players_singleteam(cSize, rwSize, lwSize, dSize, gSize) {
+    noStroke();
+    background(240);
+    ximgsize = 300;
+    yimgsize = 251;
+    image(halfrinkIMG, 0, 0, ximgsize, yimgsize);
+
+    ypos = 52
+    xpos = 76
+
+    fill("blue")
+
+    // Team1 Center
+    circle(ximgsize - 30, yimgsize / 2, cSize)
+
+    // Team1 Goalie
+    circle(xpos - 30, yimgsize / 2, gSize)
+
+    // Team1 Defense
+    circle(xpos, ypos, dSize);
+    circle(xpos, yimgsize - ypos, dSize);
+    
+    
+    // Team1 Wings
+    wingXpos = ximgsize - 60;
+    circle(wingXpos, ypos, lwSize);
+    circle(wingXpos, yimgsize - 55, rwSize);
+}
+
+function players_doubleteam() {
+>>>>>>> Stashed changes
     // background(240);
     ximgsize = 450;
     yimgsize = 200;
-    image(img, 0, 0, ximgsize, yimgsize);
+    image(fullrinkIMG, 0, 0, ximgsize, yimgsize);
 
     ypos = 52
     xpos = 76
