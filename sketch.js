@@ -8,12 +8,10 @@ function setup() {
 }
 
 function draw() {
-<<<<<<< Updated upstream
     rinkWithPlayerPositions()
 }
 
 function rinkWithPlayerPositions() {
-=======
     players_singleteam(20, 20, 20, 20, 20);
 }
 
@@ -47,7 +45,6 @@ function players_singleteam(cSize, rwSize, lwSize, dSize, gSize) {
 }
 
 function players_doubleteam() {
->>>>>>> Stashed changes
     // background(240);
     ximgsize = 450;
     yimgsize = 200;
