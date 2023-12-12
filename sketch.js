@@ -2,36 +2,23 @@
 // TODO: Add some nice animations.
 
 // Assets
-let fullrinkIMG;
 let halfrinkIMG;
 let font;
 
 let picker;
 
-// Helper Code
-function makeStruct(keys) {
-    if (!keys) return null;
-    const k = keys.split(', ');
-    const count = k.length;
-
-    /** @constructor */
-    function constructor() {
-        for (let i = 0; i < count; i++) this[k[i]] = arguments[i];
-    }
-    return constructor;
-}
-
-const position = new makeStruct("position, gp_per_season, weight, height");
+var c = ["C", "", "", ""];
+var d = ["D", "", "", ""];
+var g = ["G", "", "", ""];
+var r = ["R", "", "", ""];
+var l = ["L", "", "", ""];
 
 var gp_per_season_avg_selection = "GP per Season";
 var weight_avg_selection = "Weight";
 var height_avg_selection = "Height";
 
 var dataSelection = gp_per_season_avg_selection;
-
-
-// Global Variables
-
+var positions = [c, d, g, r, l];
 
 function changeVals() {
     print("changeVals")
@@ -55,75 +42,55 @@ function setup() {
     picker.option(height_avg_selection);
     picker.changed(changeVals);
 
-    fullrinkIMG = loadImage('assets/rink.png');
     halfrinkIMG = loadImage('assets/halfrink.png');
 
     font = loadFont("inter.ttf");
     table = loadTable("data.csv", "csv", "header");
+
+    
+}
+
+function debugText(val) {
+    fill("black")
+    textSize(11)
+    text(val, 11, 300)
 }
 
 function draw() {
-    
-    // background(240);
-    textFont(font);
+    background(240);
+
     var rows = table.getRows();
-
-
-    var c_gpperseasonavg;
-    var g_gpperseasonavg;
-    var d_gpperseasonavg;
-    var r_gpperseasonavg;
-    var l_gpperseasonavg;
-
-    var c_weightavg;
-    var g_weightavg;
-    var d_weightavg;
-    var r_weightavg;
-    var l_weightavg;
-
-    var c_heightavg;
-    var g_heightavg;
-    var d_heightavg;
-    var r_heightavg;
-    var l_heightavg;
 
     for (var r = 0; r < rows.length; r++) {
         var position = rows[r].getString("POSITION");
         var gpperseasonavg = Math.round(Number(rows[r].getString("GPPERSEASONAVG")));
         var weightavg = Math.round(Number(rows[r].getString("WEIGHTAVG")));
         var heightavg = Math.round(Number(rows[r].getString("HEIGHTAVG")));
-        var displayPosition = rows[r].getString("DISPLAYPOSITION");
-        console.log(position, gpperseasonavg, weightavg, heightavg, displayPosition);
-        if (position == "C") {
-            c_gpperseasonavg = gpperseasonavg;
-            c_weightavg = weightavg;
-            c_heightavg = heightavg;
-        } else if (position == "G") {
-            g_gpperseasonavg = gpperseasonavg;
-            g_weightavg = weightavg;
-            g_heightavg = heightavg;
-        } else if (position == "D") {
-            d_gpperseasonavg = gpperseasonavg;
-            d_weightavg = weightavg;
-            d_heightavg = heightavg;
-        } else if (position == "R") {
-            r_gpperseasonavg = gpperseasonavg;
-            r_weightavg = weightavg;
-            r_heightavg = heightavg;
-        } else if (position == "L") {
-            l_gpperseasonavg = gpperseasonavg;
-            l_weightavg = weightavg;
-            l_heightavg = heightavg;
+        
+        for (var i = 0; i < positions.length; i++) {
+            if (position == positions[i][0]) {
+                positions[i][1] = gpperseasonavg
+                positions[i][2] = weightavg
+                positions[i][3] = heightavg
+            }
         }
     }
 
+    textFont(font);
+    
+    debugText(positions);
+
+    var selection = 1;
+
     if (dataSelection == gp_per_season_avg_selection) {
-        players_singleteam(c_gpperseasonavg, r_gpperseasonavg, l_gpperseasonavg, d_gpperseasonavg, g_gpperseasonavg);
+        selection = 1
     } else if (dataSelection == weight_avg_selection) {
-        players_singleteam(c_weightavg, r_weightavg, l_weightavg, d_weightavg, g_weightavg);
+        selection = 2
     } else if (dataSelection == height_avg_selection) {
-        players_singleteam(c_heightavg, r_heightavg, l_heightavg, d_heightavg);
+        selection = 3
     }
+
+    players_singleteam(positions[0][selection], positions[1][selection], positions[2][selection], positions[3][selection], positions[4][selection]);
 }
 
 
@@ -163,6 +130,7 @@ function playerCircle(x, y, size, color) {
     if (mouseX > x - size && mouseX < x + localSize && mouseY > y - size && mouseY < y + localSize) {
         localSize += 10
     } 
+
     fill(color)
 
     // fill(color)
