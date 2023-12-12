@@ -45,8 +45,6 @@ function setup() {
 
     font = loadFont("inter.ttf");
     table = loadTable("data.csv", "csv", "header");
-
-    
 }
 
 function debugText(val) {
@@ -56,7 +54,7 @@ function debugText(val) {
 }
 
 function draw() {
-    background(240);
+    background(10000000000000000000000);
 
     var rows = table.getRows();
 
@@ -75,20 +73,24 @@ function draw() {
         }
     }
 
+    
+
     textFont(font);
     
-    debugText(positions);
+    //debugText(positions);
 
     var selection = 1;
 
     if (dataSelection == gp_per_season_avg_selection) {
         selection = 1
+
     } else if (dataSelection == weight_avg_selection) {
         selection = 2
     } else if (dataSelection == height_avg_selection) {
         selection = 3
     }
 
+    
     players_singleteam(positions[0][selection], positions[1][selection], positions[2][selection], positions[3][selection], positions[4][selection]);
 }
 
@@ -125,8 +127,28 @@ function players_singleteam(cSize, rwSize, lwSize, dSize, gSize) {
 }
 
 function playerCircle(x, y, size, color) {
-    var localSize = size;
-    if (mouseX > x - size && mouseX < x + localSize && mouseY > y - size && mouseY < y + localSize) {
+    let sizeLimit = 60
+
+    if (size <= sizeLimit) {
+        var localSize = size;
+    } else {
+        localSize = sizeLimit
+    }
+
+    var textXOffsetMultiplier;
+
+    if (dataSelection == gp_per_season_avg_selection) {
+        textXOffsetMultiplier = 0.3
+    } else if (dataSelection == weight_avg_selection) {
+        textXOffsetMultiplier = 0.4
+    } else if (dataSelection == height_avg_selection) {
+        textXOffsetMultiplier = 0.25
+    }
+
+    
+
+
+    if (mouseX > x - localSize && mouseX < x + localSize && mouseY > y - localSize && mouseY < y + localSize) {
         localSize += 10
     } 
 
@@ -137,6 +159,6 @@ function playerCircle(x, y, size, color) {
 
     fill("white")
     textSize(localSize * 0.5)
-    text(size, x - localSize * 0.3, y + localSize * 0.2);
+    text(size, x - localSize * textXOffsetMultiplier, y + localSize * 0.2);
 }
 
