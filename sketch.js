@@ -1,5 +1,4 @@
-// TODO: Add a picker to select the data visualazation
-// TODO: Add some nice animations.
+// TODO: Fix scaling issues with other data selections, efficiency improvemnets.
 
 // Assets
 let halfrinkIMG;
