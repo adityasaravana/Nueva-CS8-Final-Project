@@ -1,5 +1,5 @@
 // TODO: Add a picker to select the data visualazation
-// TODO: Add some nice hover animations.
+// TODO: Add some nice animations.
 
 // Assets
 let fullrinkIMG;
@@ -8,21 +8,40 @@ let font;
 
 let picker;
 
-// Global Variables
-var gp_per_season_avg_selection = "GP per Season"
-var weight_avg_selection = "Weight"
-var height_avg_selection = "Height"
+// Helper Code
+function makeStruct(keys) {
+    if (!keys) return null;
+    const k = keys.split(', ');
+    const count = k.length;
 
-var dataSelection = gp_per_season_avg_selection
+    /** @constructor */
+    function constructor() {
+        for (let i = 0; i < count; i++) this[k[i]] = arguments[i];
+    }
+    return constructor;
+}
+
+const position = new makeStruct("position, gp_per_season, weight, height");
+
+var gp_per_season_avg_selection = "GP per Season";
+var weight_avg_selection = "Weight";
+var height_avg_selection = "Height";
+
+var dataSelection = gp_per_season_avg_selection;
+
+
+// Global Variables
+
 
 function changeVals() {
     print("changeVals")
     let val = picker.value();
-    if (val == gp_per_season_avg_selection); { 
+
+    if (val == gp_per_season_avg_selection) {
         dataSelection = gp_per_season_avg_selection
-    } elseif (val == weight_avg_selection); { 
-        dataSelection = weight_avg_selectionSelect
-    } elseif (val == height_avg_selection); {
+    } else if (val == weight_avg_selection) {
+        dataSelection = weight_avg_selection
+    } else if (val == height_avg_selection) {
         dataSelection = height_avg_selection
     }
 }
@@ -44,9 +63,11 @@ function setup() {
 }
 
 function draw() {
+    
     // background(240);
     textFont(font);
     var rows = table.getRows();
+
 
     var c_gpperseasonavg;
     var g_gpperseasonavg;
@@ -77,7 +98,7 @@ function draw() {
             c_gpperseasonavg = gpperseasonavg;
             c_weightavg = weightavg;
             c_heightavg = heightavg;
-        } else if (position == "G") { 
+        } else if (position == "G") {
             g_gpperseasonavg = gpperseasonavg;
             g_weightavg = weightavg;
             g_heightavg = heightavg;
@@ -90,25 +111,25 @@ function draw() {
             r_weightavg = weightavg;
             r_heightavg = heightavg;
         } else if (position == "L") {
-            l_gpperseasonavg = gpperseasonavg; 
+            l_gpperseasonavg = gpperseasonavg;
             l_weightavg = weightavg;
             l_heightavg = heightavg;
         }
     }
 
-    if (dataSelection == gp_per_season_avg_selection); {
+    if (dataSelection == gp_per_season_avg_selection) {
         players_singleteam(c_gpperseasonavg, r_gpperseasonavg, l_gpperseasonavg, d_gpperseasonavg, g_gpperseasonavg);
-    } elseif (dataSelection == weight_avg_selection); {
+    } else if (dataSelection == weight_avg_selection) {
         players_singleteam(c_weightavg, r_weightavg, l_weightavg, d_weightavg, g_weightavg);
-    } elseif (dataSelection == height_avg_selection); {
-        players_singleteam(c_heightavg, r_heightavg, l_heightavg, d_heightavg)
+    } else if (dataSelection == height_avg_selection) {
+        players_singleteam(c_heightavg, r_heightavg, l_heightavg, d_heightavg);
     }
 }
 
 
 function players_singleteam(cSize, rwSize, lwSize, dSize, gSize) {
     noStroke();
-    
+
     ximgsize = 300;
     yimgsize = 251;
 
@@ -122,7 +143,7 @@ function players_singleteam(cSize, rwSize, lwSize, dSize, gSize) {
     // Team1 Center
 
     playerCircle(ximgsize - 30, yimgsize / 2, cSize, color)
-    
+
     playerCircle(xpos - 30, yimgsize / 2, gSize, color)
 
     // Team1 Defense
@@ -130,7 +151,7 @@ function players_singleteam(cSize, rwSize, lwSize, dSize, gSize) {
 
 
     playerCircle(xpos, yimgsize - ypos, dSize, color);
-    
+
     // Team1 Wings
     wingXpos = ximgsize - 60;
     playerCircle(wingXpos, ypos, lwSize, color);
@@ -138,11 +159,17 @@ function players_singleteam(cSize, rwSize, lwSize, dSize, gSize) {
 }
 
 function playerCircle(x, y, size, color) {
+    var localSize = size;
+    if (mouseX > x - size && mouseX < x + localSize && mouseY > y - size && mouseY < y + localSize) {
+        localSize += 10
+    } 
     fill(color)
-    circle(x, y, size)
-    
-    fill("white")
-    textSize(size * 0.5)
-    text(size, x - size * 0.3, y + size * 0.2);
 
+    // fill(color)
+    circle(x, y, localSize)
+
+    fill("white")
+    textSize(localSize * 0.5)
+    text(size, x - localSize * 0.3, y + localSize * 0.2);
 }
+
